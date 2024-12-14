@@ -1,7 +1,7 @@
 import { createClient } from "@/supabase/utils/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { CategoryType } from "@/lib/types";
+import { CategoryType, CustomerType } from "@/lib/types";
 import EditCategories from "@/components/dashboard/categories/edit-categories"
 
 export default async function Page() {

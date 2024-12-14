@@ -4,15 +4,14 @@ import { redirect } from "next/navigation";
 import { OrganizationType, SheetType } from "@/lib/types";
 import SheetTable from "@/components/id-records/sheetId/page";
 
-type Params = Promise<{ sheetId: string }>
-export default async function Page({ params }: { params: Params }) {
+export default async function Page({ params }: { params: { sheetId: string } }) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-  const sheetId = (await params).sheetId
 
+  const { data } = await supabase.auth.getSession();
 
   /**** get Sheet ****/
-  const sheetRes = await supabase.from('sheets').select('*').eq('id', sheetId).single();
+  const sheetRes = await supabase.from('sheets').select('*').eq('id', params.sheetId).single();
   if (sheetRes.error) {
     console.log(sheetRes.error)
     redirect('/error')

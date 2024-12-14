@@ -5,15 +5,13 @@ import { redirect } from "next/navigation";
 import { CategoryType, ProductType } from "@/lib/types";
 import ProductItem from "@/components/products/product-item";
 
-type Params = Promise<{ catID: string }>
-export default async function Page({ params }: {
-  params: Params
+export default async function Page({ params, }: {
+  params: { catID: string };
 }) {
   const supabase = createClient(cookies());
-  const catID = (await params).catID
 
   /**** get categories ****/
-  const categoriesRes = await supabase.from('categories').select().eq('id', catID).single()
+  const categoriesRes = await supabase.from('categories').select().eq('id', params.catID).single()
   if (categoriesRes.error || !categoriesRes.data) {
     console.log(categoriesRes.error)
     redirect('/error')
@@ -24,7 +22,7 @@ export default async function Page({ params }: {
 
 
   /**** get products ****/
-  const productsRes = await supabase.from('products').select().eq('category_id', catID).order('updated_at', { ascending: false });
+  const productsRes = await supabase.from('products').select().eq('category_id', params.catID).order('updated_at', { ascending: false });
   if (productsRes.error) {
     console.log(productsRes.error)
     redirect('/error')

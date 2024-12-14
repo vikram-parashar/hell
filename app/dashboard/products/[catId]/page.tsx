@@ -4,13 +4,11 @@ import { redirect } from "next/navigation";
 import { CategoryType, ProductType } from "@/lib/types";
 import EditProducts from "@/components/dashboard/products/edit-products";
 
-type Params = Promise<{ catID: string }>
-export default async function Page({ params }: { params: Params }) {
+export default async function Page({ params }: { params: { catId: string } }) {
   const supabase = createClient(cookies());
-  const catID = (await params).catID
 
   /**** get products links ****/
-  const productRes = await supabase.from('products').select().eq('category_id', catID).order('updated_at', { ascending: false });
+  const productRes = await supabase.from('products').select().eq('category_id', params.catId).order('updated_at', { ascending: false });
   if (productRes.error || !productRes.data) {
     console.log(productRes.error)
     redirect('/error')
@@ -31,9 +29,9 @@ export default async function Page({ params }: { params: Params }) {
   return (
     <div>
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mt-10">
-        {categories.filter(item => item.id === catID)[0].name}
+        {categories.filter(item => item.id === params.catId)[0].name}
       </h1>
-      <EditProducts products={products} categoryId={catID}/>
+      <EditProducts products={products} categoryId={params.catId}/>
     </div>
   )
 }

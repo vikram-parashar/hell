@@ -21,12 +21,12 @@ export const handleDataInsert = async (Record: any, sheetId: string) => {
   const oldData: {
     index: number,
     created_by: string,
-    [key: string]: string | number | boolean
+    [key: string]: any
   }[] = data.data
 
   /**** get user data ****/
   const userRes = await supabase.auth.getSession()
-  Record['created_by'] = userRes.data.session?.user.id || cookies().then(val=>val.get('anon-user')?.value)
+  Record['created_by'] = userRes.data.session?.user.id || cookies().get('anon-user')?.value
 
   //set entry index
   let index = 0;

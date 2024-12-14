@@ -4,6 +4,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import {
   AlertDialog,
@@ -30,7 +32,7 @@ import { Button } from '../ui/button'
 import Link from 'next/link'
 import { Badge } from '../ui/badge'
 import NewSheet from '../forms/new-sheet'
-import { removeImageFolder,  removeRow, update } from "@/lib/actions/crud"
+import { removeImageFolder, removeImages, removeRow, update } from "@/lib/actions/crud"
 import { toast } from "sonner"
 import { DotsHorizontalIcon } from "@radix-ui/react-icons"
 
@@ -45,7 +47,7 @@ const SheetItem = ({ sheet }: { sheet: SheetType }) => {
     }, 0) + 1
   }
 
-  const types: { [key: string]: { icon: React.ReactNode, bg: string } } = {
+  const types: { [key: string]: { icon: JSX.Element, bg: string } } = {
     'text': { icon: <Type />, bg: 'bg-rosePine-iris' },
     'number': { icon: <FileDigit />, bg: 'bg-rosePine-gold' },
     'image': { icon: <ImageIcon />, bg: 'bg-rosePine-foam' },

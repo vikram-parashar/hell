@@ -1,9 +1,9 @@
 'use server'
-const nodemailer = require('nodemailer');
+var nodemailer = require('nodemailer');
 
 export const handleMail = async (subject: string, html: string) => {
 
-  const transporter = await nodemailer.createTransport({
+  var transporter = await nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: process.env.EMAIL_PORT,
     secure: false,
@@ -21,7 +21,7 @@ export const handleMail = async (subject: string, html: string) => {
   //   }
   // });
 
-  const mailOptions = {
+  var mailOptions = {
     from: `harrygraphics.in <${process.env.EMAIL_ID}>`,
     // to: 'harrygraphics21@gmail.com',
     to: 'vikramparashar24@gmail.com',

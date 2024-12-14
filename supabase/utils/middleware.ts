@@ -1,9 +1,10 @@
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 
 export const createClient = (request: NextRequest) => {
   // Create an unmodified response
-  const supabaseResponse = NextResponse.next({
+  let supabaseResponse = NextResponse.next({
     request: {
       headers: request.headers,
     },
@@ -35,12 +36,12 @@ export const createClient = (request: NextRequest) => {
 
 
 export async function updateSession(request: NextRequest) {
-  const supabaseResponse = NextResponse.next({
+  let supabaseResponse = NextResponse.next({
     request,
   })
 
   // used in /user/id-records/my-records/[sheetId]
-  const cookieStore= await cookies()
+  const cookieStore=cookies()
   const anonUser=cookieStore.get('anon-user')
   if(!anonUser)
     supabaseResponse.cookies.set('anon-user',crypto.randomUUID(),{maxAge:60*60*24*365})
